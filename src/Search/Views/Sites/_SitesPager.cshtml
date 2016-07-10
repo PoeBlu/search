@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Site>
+@{
+    var size = 50;
+    var search = ViewContext.HttpContext.Request.Query["search"];
+    if (!string.IsNullOrWhiteSpace(ViewContext.HttpContext.Request.Query["size"]) && int.TryParse(ViewContext.HttpContext.Request.Query["size"], out size)) { }
+    var prevDisabled = !Model.Any() && !string.IsNullOrWhiteSpace(ViewContext.HttpContext.Request.Query["before"]) || (Model.FirstOrDefault()?.Id ?? 0) == 1;
+    var nextDisabled = (!Model.Any() && !string.IsNullOrWhiteSpace(ViewContext.HttpContext.Request.Query["after"])) || Model.Count() < size;
+}
+<nav>
+    <ul class="pager">
+        @if (prevDisabled)
+        {
+            <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+        }
+        else
+        {
+            <li class="previous">
+                <a asp-action="index" asp-route-before="@(Model.FirstOrDefault()?.Id ?? int.MaxValue)" asp-route-size="@size" asp-route-search="@search">
+                    <span aria-hidden="true">&larr;</span> Previous
+                </a>
+            </li>
+        }
+        @if (nextDisabled)
+        {
+            <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+        }
+        else
+        {
+            <li class="next">
+                <a asp-action="index" asp-route-after="@(Model.LastOrDefault()?.Id ?? 0)" asp-route-size="@size" asp-route-search="@search">
+                    Next <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

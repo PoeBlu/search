@@ -23,16 +23,18 @@ namespace Bit.Search.Controllers
                 after = 0;
             }
 
-            if(before.HasValue)
+            var sites = _context.Sites;
+            IOrderedQueryable<Site> orderedSites = null;
+            if (before.HasValue)
             {
-                return View(_context.Sites.Where(s => s.Id < before.Value)
-                    .OrderByDescending(s => s.Id).Take(size).ToList().OrderBy(s => s.Id));
+                orderedSites = sites.Where(s => s.Id < before.Value).OrderByDescending(s => s.Id);
             }
             else
             {
-                return View(_context.Sites.Where(s => s.Id > after.Value)
-                    .OrderBy(s => s.Id).Take(size).ToList());
+                orderedSites = sites.Where(s => s.Id > after.Value).OrderBy(s => s.Id);
             }
+
+            return View(orderedSites.Take(size).ToList().OrderBy(s => s.Id));
         }
 
         public IActionResult Add()

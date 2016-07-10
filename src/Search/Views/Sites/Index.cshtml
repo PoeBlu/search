@@ -4,7 +4,21 @@
     ViewData["Title"] = "Sites";
 }
 
-<p><a asp-action="add" class="btn btn-primary">Add Site</a></p>
+<div class="row">
+    <div class="col-sm-6">
+        <form method="get" asp-action="index">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Name" name="search" value="@ViewContext.HttpContext.Request.Query["search"]">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Search</button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-6 text-right">
+        <a asp-action="add" class="btn btn-primary">Add Site</a>
+    </div>
+</div>
 
 @Html.Partial("_SitesPager")
 
@@ -19,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            @if (!Model.Any())
+            @if(!Model.Any())
             {
                 <tr>
                     <td colspan="4">No sites to list.</td>
@@ -27,7 +41,7 @@
             }
             else
             {
-                foreach (var site in Model)
+                foreach(var site in Model)
                 {
                     <tr>
                         <td>
@@ -36,7 +50,7 @@
                         </td>
                         <td>@site.Name</td>
                         <td>@site.Uri</td>
-                        <td>@site.Rank</td>
+                        <td>@(site.Rank?.ToString() ?? "-")</td>
                     </tr>
                 }
             }

@@ -16,25 +16,30 @@ namespace Bit.Search.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int? before = null, int? after = null, int size = 50)
+        public IActionResult Index(int? before = null, int? after = null, int size = 50, string search = null)
         {
             if(!before.HasValue && !after.HasValue)
             {
                 after = 0;
             }
 
-            var sites = _context.Sites;
-            IOrderedQueryable<Site> orderedSites = null;
-            if (before.HasValue)
+            IQueryable<Site> sites = _context.Sites;
+
+            if(!string.IsNullOrWhiteSpace(search))
             {
-                orderedSites = sites.Where(s => s.Id < before.Value).OrderByDescending(s => s.Id);
+                sites = sites.Where(s => s.Name.Contains(search));
+            }
+
+            if(before.HasValue)
+            {
+                sites = sites.Where(s => s.Id < before.Value).OrderByDescending(s => s.Id);
             }
             else
             {
-                orderedSites = sites.Where(s => s.Id > after.Value).OrderBy(s => s.Id);
+                sites = sites.Where(s => s.Id > after.Value).OrderBy(s => s.Id);
             }
 
-            return View(orderedSites.Take(size).ToList().OrderBy(s => s.Id));
+            return View(sites.Take(size).ToList().OrderBy(s => s.Id));
         }
 
         public IActionResult Add()

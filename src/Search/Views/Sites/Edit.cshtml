@@ -1,0 +1,10 @@
+﻿@model Site
+@{
+    ViewData["Title"] = "Edit Site " + Model.Name;
+}
+
+<form method="post" asp-action="edit" asp-route-id="@Model.Id">
+    @Html.Partial("_AddEditFields")
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="index" class="btn btn-link">Done</a>
+</form>

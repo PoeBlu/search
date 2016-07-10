@@ -1,0 +1,10 @@
+﻿@model Site
+@{
+    ViewData["Title"] = "Add Site";
+}
+
+<form method="post" asp-action="add">
+    @Html.Partial("_AddEditFields")
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="index" class="btn btn-link">Cancel</a>
+</form>

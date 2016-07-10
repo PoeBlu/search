@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Site>
+@using System.Linq
+@{
+    ViewData["Title"] = "Sites";
+}
+
+<p><a asp-action="add" class="btn btn-primary">Add Site</a></p>
+
+<nav>
+    <ul class="pager">
+        <li class="previous">
+            <a asp-action="index" asp-route-before="@(Model.FirstOrDefault()?.Id ?? int.MaxValue)">
+                <span aria-hidden="true">&larr;</span> Previous
+            </a>
+        </li>
+        <li class="next">
+            <a asp-action="index" asp-route-after="@(Model.LastOrDefault()?.Id ?? 0)">
+                Next <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th style="width: 60px; min-width: 60px;">&nbsp;</th>
+                <th width="300px;">Name</th>
+                <th>URI</th>
+                <th width="100px;">Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var site in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="edit" asp-route-id="@site.Id"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a asp-action="delete" asp-route-id="@site.Id" class="delete-site"><i class="glyphicon glyphicon-trash"></i></a>
+                    </td>
+                    <td>@site.Name</td>
+                    <td>@site.Uri</td>
+                    <td>@site.Rank</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<nav>
+    <ul class="pager">
+        <li class="previous">
+            <a asp-action="index" asp-route-before="@(Model.FirstOrDefault()?.Id ?? int.MaxValue)">
+                <span aria-hidden="true">&larr;</span> Previous
+            </a>
+        </li>
+        <li class="next">
+            <a asp-action="index" asp-route-after="@(Model.LastOrDefault()?.Id ?? 0)">
+                Next <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@section scripts {
+    <script>
+        $('.delete-site').click(function (e) {
+            e.preventDefault();
+            if (confirm('Are you sure your want to delete this site?')) {
+                location = $(this).attr('href');
+            }
+        });
+    </script>
+}
+

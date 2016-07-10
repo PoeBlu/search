@@ -45,8 +45,8 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="edit" asp-route-id="@site.Id"><i class="glyphicon glyphicon-pencil"></i></a>
-                            <a asp-action="delete" asp-route-id="@site.Id" class="delete-site"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a asp-action="edit" asp-route-id="@site.Id" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a asp-action="delete" asp-route-id="@site.Id" title="Delete" class="delete-site"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                         <td>@site.Name</td>
                         <td>@site.Uri</td>
